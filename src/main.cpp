@@ -4,7 +4,7 @@ SevSeg sevseg; //Initiate a seven segment controller object
 
 unsigned long timerStart = 0;
 int timer = 0;
-int highScore = 222;
+int highScore = 9999;
 
 int Button2 = A0;
 
@@ -21,9 +21,11 @@ unsigned long ButtonHitMillis = 0;
 
 void setup() {
     byte numDigits = 4;  
-    byte digitPins[] = {2, 3, 4, 5};
-    byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13};
-    bool resistorsOnSegments = 0; 
+    // byte digitPins[] = {2, 3, 4, 5}; //Original Wiring
+    byte digitPins[] = {7, 4, 3, 13}; //Custom Shield Wiring
+    // byte segmentPins[] = {6, 7, 8, 9, 10, 11, 12, 13}; //Original Wiring
+    byte segmentPins[] = {6, 2, 11, 9, 8, 5, 12, 10}; //Custom Shield Wiring
+    bool resistorsOnSegments = 0;
 
     pinMode(Button2, INPUT_PULLUP);
 
@@ -83,9 +85,11 @@ void loop() {
 
     sevseg.refreshDisplay(); // Must run repeatedly
 
-    if (digitalRead(Button2)==LOW) {
-        DisplayState = 3;
-        ButtonHitMillis = millis();
+    if (digitalRead(Button2)==HIGH) {
+        if (DisplayState==2) {
+            DisplayState = 3;
+            ButtonHitMillis = millis();
+        }
     }
 
     Button1.tick();
